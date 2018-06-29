@@ -126,7 +126,8 @@ const char *config_get_config_dir()
 #ifdef __APPLE__
 	base_config_dir = strdup("/var/db");
 #else
-	base_config_dir = strdup("/var/lib");
+	//base_config_dir = strdup("/var/lib"); //leok
+	base_config_dir = strdup("/data/data/com.rockchip.inno.multiprojectionsystem/files/lib");
 #endif
 #endif
 	__config_dir = string_concat(base_config_dir, DIR_SEP_S, CONFIG_DIR, NULL);
@@ -253,8 +254,11 @@ static int internal_set_value(const char *config_file, const char *key, plist_t 
 	} else {
 		usbmuxd_log(LL_DEBUG, "setting key %s in config_file %s", key, config_file);
 	}
-
+	#ifndef FUNC_RENAME //leok
 	int res = plist_write_to_filename(config, config_file, PLIST_FORMAT_XML);
+	#else
+	int res = plist_write_to_filename_new(config, config_file, PLIST_FORMAT_XML);
+	#endif
 
 	plist_free(config);
 

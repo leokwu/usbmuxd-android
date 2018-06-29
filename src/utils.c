@@ -137,6 +137,9 @@ void collection_copy(struct collection *dest, struct collection *src)
 	memcpy(dest->list, src->list, sizeof(void*) * src->capacity);
 }
 
+
+#if 0
+
 #ifndef HAVE_STPCPY
 /**
  * Copy characters from one string into another
@@ -149,7 +152,11 @@ void collection_copy(struct collection *dest, struct collection *src)
  * @return a pointer to the terminating `\0' character of @s1,
  * or NULL if @s1 or @s2 is NULL.
  */
+#ifndef FUNC_RENAME //leok
 char *stpcpy(char * s1, const char * s2)
+#else
+char *stpcpy_new(char * s1, const char * s2)
+#endif
 {
 	if (s1 == NULL || s2 == NULL)
 		return NULL;
@@ -171,7 +178,11 @@ char *stpcpy(char * s1, const char * s2)
  * @return a newly allocated string, or NULL if @str is NULL.  This will also
  * return NULL and set errno to ENOMEM if memory is exhausted.
  */
+#ifndef FUNC_RENAME //leok
 char *string_concat(const char *str, ...)
+#else
+char *string_concat_new(const char *str, ...)
+#endif
 {
 	size_t len;
 	va_list args;
@@ -201,13 +212,21 @@ char *string_concat(const char *str, ...)
 		return NULL; /* errno remains set */
 
 	dest = result;
-
+	
+	#ifndef FUNC_RENAME //leok
 	dest = stpcpy(dest, str);
+	#else
+	dest = stpcpy_new(dest, str);
+	#endif
 
 	va_start(args, str);
 	s = va_arg(args, char *);
 	while (s) {
+		#ifndef FUNC_RENAME //leok
 		dest = stpcpy(dest, s);
+		#else
+		dest = stpcpy_new(dest, s);
+		#endif
 		s = va_arg(args, char *);
 	}
 	va_end(args);
@@ -215,7 +234,11 @@ char *string_concat(const char *str, ...)
 	return result;
 }
 
+#ifndef FUNC_RENAME //leok
 int buffer_read_from_filename(const char *filename, char **buffer, uint64_t *length)
+#else
+int buffer_read_from_filename_new(const char *filename, char **buffer, uint64_t *length)
+#endif
 {
 	FILE *f;
 	uint64_t size;
@@ -255,7 +278,11 @@ int buffer_read_from_filename(const char *filename, char **buffer, uint64_t *len
 	return ret;
 }
 
+#ifndef FUNC_RENAME //leok
 int buffer_write_to_filename(const char *filename, const char *buffer, uint64_t length)
+#else
+int buffer_write_to_filename_new(const char *filename, const char *buffer, uint64_t length)
+#endif
 {
 	FILE *f;
 
@@ -279,7 +306,11 @@ int buffer_write_to_filename(const char *filename, const char *buffer, uint64_t 
 	}
 }
 
+#ifndef FUNC_RENAME //leok
 int plist_read_from_filename(plist_t *plist, const char *filename)
+#else
+int plist_read_from_filename_new(plist_t *plist, const char *filename)
+#endif
 {
 	char *buffer = NULL;
 	uint64_t length;
@@ -302,7 +333,11 @@ int plist_read_from_filename(plist_t *plist, const char *filename)
 	return 1;
 }
 
+#ifndef FUNC_RENAME //leok
 int plist_write_to_filename(plist_t plist, const char *filename, enum plist_format_t format)
+#else
+int plist_write_to_filename_new(plist_t plist, const char *filename, enum plist_format_t format)
+#endif
 {
 	char *buffer = NULL;
 	uint32_t length;
@@ -323,6 +358,9 @@ int plist_write_to_filename(plist_t plist, const char *filename, enum plist_form
 
 	return res;
 }
+
+#endif
+
 
 #ifndef HAVE_CLOCK_GETTIME
 typedef int clockid_t;

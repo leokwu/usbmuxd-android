@@ -70,21 +70,43 @@ void collection_copy(struct collection *dest, struct collection *src);
 		} \
 	} while(0);
 
-#ifndef HAVE_STPCPY
-char *stpcpy(char * s1, const char * s2);
-#endif
-char *string_concat(const char *str, ...);
+#ifndef FUNC_RENAME //leok
 
-int buffer_read_from_filename(const char *filename, char **buffer, uint64_t *length);
-int buffer_write_to_filename(const char *filename, const char *buffer, uint64_t length);
+#ifndef HAVE_STPCPY
+extern char *stpcpy(char * s1, const char * s2);
+#endif
+extern char *string_concat(const char *str, ...);
+
+extern int buffer_read_from_filename(const char *filename, char **buffer, uint64_t *length);
+extern int buffer_write_to_filename(const char *filename, const char *buffer, uint64_t length);
 
 enum plist_format_t {
 	PLIST_FORMAT_XML,
 	PLIST_FORMAT_BINARY
 };
 
-int plist_read_from_filename(plist_t *plist, const char *filename);
-int plist_write_to_filename(plist_t plist, const char *filename, enum plist_format_t format);
+extern int plist_read_from_filename(plist_t *plist, const char *filename);
+extern int plist_write_to_filename(plist_t plist, const char *filename, enum plist_format_t format);
+
+#else
+
+#ifndef HAVE_STPCPY
+char *stpcpy_new(char * s1, const char * s2);
+#endif
+char *string_concat_new(const char *str, ...);
+
+int buffer_read_from_filename_new(const char *filename, char **buffer, uint64_t *length);
+int buffer_write_to_filename_new(const char *filename, const char *buffer, uint64_t length);
+
+enum plist_format_t {
+        PLIST_FORMAT_XML,
+        PLIST_FORMAT_BINARY
+};
+
+int plist_read_from_filename_new(plist_t *plist, const char *filename);
+int plist_write_to_filename_new(plist_t plist, const char *filename, enum plist_format_t format);
+#endif
+
 
 uint64_t mstime64(void);
 void get_tick_count(struct timeval * tv);

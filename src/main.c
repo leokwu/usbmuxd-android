@@ -20,6 +20,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#define PACKAGE_NAME "usbmuxd"
+#define PACKAGE_STRING "usbmuxd 1.1.1"
+#define PACKAGE_VERSION  "1.1.1"
+
+
 #define _BSD_SOURCE
 #define _GNU_SOURCE
 
@@ -49,8 +54,10 @@
 #include "client.h"
 #include "conf.h"
 
-static const char *socket_path = "/var/run/usbmuxd";
-static const char *lockfile = "/var/run/usbmuxd.pid";
+//static const char *socket_path = "/var/run/usbmuxd";
+//static const char *lockfile = "/var/run/usbmuxd.pid";
+static const char *socket_path = "/data/data/com.rockchip.inno.multiprojectionsystem/files/run/usbmuxd"; //leok
+static const char *lockfile = "/data/data/com.rockchip.inno.multiprojectionsystem/files/run/usbmuxd.pid";
 
 int should_exit;
 int should_discover;
@@ -483,7 +490,8 @@ int main(int argc, char *argv[])
 		verbose += LL_WARNING;
 		log_enable_syslog();
 	} else {
-		verbose += LL_NOTICE;
+		//verbose += LL_NOTICE;
+		verbose += LL_FLOOD;
 	}
 
 	/* set log level to specified verbosity */

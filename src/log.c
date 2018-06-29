@@ -33,7 +33,8 @@
 #include "log.h"
 #include "utils.h"
 
-unsigned int log_level = LL_WARNING;
+//unsigned int log_level = LL_WARNING;
+unsigned int log_level = LL_FLOOD;
 
 int log_syslog = 0;
 

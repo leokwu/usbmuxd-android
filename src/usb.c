@@ -1,4 +1,4 @@
-/*
+	/*
  * usb.c
  *
  * Copyright (C) 2009 Hector Martin <hector@marcansoft.com>
@@ -36,6 +36,7 @@
 #include "device.h"
 #include "utils.h"
 
+#define HAVE_LIBUSB_HOTPLUG_API 1
 #if (defined(LIBUSB_API_VERSION) && (LIBUSB_API_VERSION >= 0x01000102)) || (defined(LIBUSBX_API_VERSION) && (LIBUSBX_API_VERSION >= 0x01000102))
 #define HAVE_LIBUSB_HOTPLUG_API 1
 #endif
@@ -395,6 +396,7 @@ static int usb_device_add(libusb_device* dev)
 			usbmuxd_log(LL_NOTICE, "Could not get old configuration descriptor for device %d-%d: %d", bus, address, res);
 		} else {
 			for(j=0; j<config->bNumInterfaces; j++) {
+				usbmuxd_log(LL_INFO, "------------------------------------------------------------");
 				const struct libusb_interface_descriptor *intf = &config->interface[j].altsetting[0];
 				if((res = libusb_kernel_driver_active(handle, intf->bInterfaceNumber)) < 0) {
 					usbmuxd_log(LL_NOTICE, "Could not check kernel ownership of interface %d for device %d-%d: %d", intf->bInterfaceNumber, bus, address, res);

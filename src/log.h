@@ -21,6 +21,7 @@
 #ifndef LOG_H
 #define LOG_H
 
+
 enum loglevel {
 	LL_FATAL = 0,
 	LL_ERROR,
